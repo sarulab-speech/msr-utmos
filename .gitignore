@@ -175,3 +175,5 @@ cython_debug/
 
 lightning_logs/
 *.sh.o*
+wandb/
+vmc24_mos/

@@ -10,11 +10,14 @@ requires-python = ">=3.12"
 dependencies = [
     "jsonargparse[signatures]>=4.39.0",
     "lightning>=2.5.1.post0",
-    "soundfile>=0.13.1",
+    "pandas>=2.2.3",
+    "schedulefree>=1.4.1",
+    "soundfile==0.10.3.post1",
     "tensorboard>=2.19.0",
     "torch==2.6.0",
     "torchaudio==2.6.0",
     "transformers>=4.51.3",
+    "wandb>=0.19.11",
 ]
 
 [project.scripts]
@@ -38,6 +41,7 @@ explicit = true
 
 [dependency-groups]
 dev = [
+    "ipykernel>=6.29.5",
     "ruff>=0.11.8",
 ]
 

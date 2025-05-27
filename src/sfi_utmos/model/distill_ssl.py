@@ -37,12 +37,10 @@ class DistillSSL(LightningModule):
                 self.teacher_model_path_or_name, trust_remote_code=True
             )
         )
-        self.student_model.encoder.load_state_dict(
-            self.teacher_model.encoder.state_dict()
-        )
         for param in self.teacher_model.parameters():
             param.requires_grad = False
         self.teacher_model.eval()
+        self.student_model.train()
         self.criterion = torch.nn.MSELoss()
 
     def compute_loss(
