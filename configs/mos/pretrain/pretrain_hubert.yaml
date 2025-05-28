@@ -9,9 +9,9 @@ trainer:
   logger: 
     - class_path: lightning.pytorch.loggers.WandbLogger
       init_args:
-        name: "scratch_w2v2/fold0"
+        name: "pretrain_hubert"
         project: "vmc24_mos"
-        group: "scratch_w2v2"
+        group: "pretrain_hubert"
   callbacks: 
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint
       init_args:
@@ -20,7 +20,7 @@ trainer:
         save_top_k: 1
         filename: "{epoch:02d}-{val_loss:.2f}"
   fast_dev_run: false
-  max_epochs: 50
+  max_epochs: null
   min_epochs: null
   max_steps: -1
   min_steps: null
@@ -37,7 +37,7 @@ trainer:
   enable_checkpointing: null
   enable_progress_bar: null
   enable_model_summary: null
-  accumulate_grad_batches: 24
+  accumulate_grad_batches: 1
   gradient_clip_val: 1.0
   gradient_clip_algorithm: null
   deterministic: null
@@ -53,13 +53,14 @@ trainer:
   default_root_dir: null
   model_registry: null
 model:
-  ssl_model_path: facebook/wav2vec2-base
+  ssl_model_path: facebook/hubert-base-ls960
+  processor_path: facebook/wav2vec2-base
   pretrained_model_path: null
 data:
-  train_mos_data_path: notebooks/train_0_7fold.csv
-  valid_mos_data_path: notebooks/val_0_7fold.csv
-  wav_root: /home/acc12576tt/vmc24/track3_obf/DATA/wav/
-  batch_size: 1
+  train_mos_data_path: notebooks/bvcc_train.csv
+  valid_mos_data_path: notebooks/bvcc_dev.csv
+  wav_root: /home/acc12576tt/vmc24/DATA/wav
+  batch_size: 64
   shuffle: true
 optimizer: null
 lr_scheduler: null

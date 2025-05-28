@@ -6,4 +6,4 @@
 #PBS -j oe
 #PBS -k oed
 cd ${PBS_O_WORKDIR}
-uv run -m sfi_utmos.train_mos fit -c configs/mos/pretrain/scratch_w2v2.yaml
+uv run -m sfi_utmos.train_mos fit -c configs/mos/pretrain/pretrain_wavlm.yaml

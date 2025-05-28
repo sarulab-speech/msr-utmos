@@ -9,9 +9,9 @@ trainer:
   logger: 
     - class_path: lightning.pytorch.loggers.WandbLogger
       init_args:
-        name: "scratch_w2v2/fold0"
+        name: "scratch_sfi_wavlm/fold0"
         project: "vmc24_mos"
-        group: "scratch_w2v2"
+        group: "scratch_sfi_wavlm"
   callbacks: 
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint
       init_args:
@@ -53,7 +53,8 @@ trainer:
   default_root_dir: null
   model_registry: null
 model:
-  ssl_model_path: facebook/wav2vec2-base
+  ssl_model_path: Wataru/sfi_wavlm_distill_ears
+  processor_path: facebook/wav2vec2-base
   pretrained_model_path: null
 data:
   train_mos_data_path: notebooks/train_0_7fold.csv

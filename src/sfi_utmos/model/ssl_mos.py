@@ -16,6 +16,7 @@ class SSLMOSLightningModule(LightningModule):
         self,
         ssl_model_path,
         pretrained_model_path=Optional[str],
+        processor_path: Optional[str] = None,
     ):
         """
         Initialize the SSLMOSLightningModule.
@@ -30,8 +31,11 @@ class SSLMOSLightningModule(LightningModule):
         self.ssl_model = transformers.AutoModel.from_pretrained(
             ssl_model_path, trust_remote_code=True
         ).train()
+        _processor_path = (
+            processor_path if processor_path is not None else ssl_model_path
+        )
         self.processor = transformers.AutoProcessor.from_pretrained(
-            ssl_model_path, trust_remote_code=True
+            _processor_path, trust_remote_code=True
         )
         self.pred_liner = torch.nn.Linear(self.ssl_model.config.hidden_size, 1)
         self.listenr_embedding = torch.nn.Embedding(
@@ -43,6 +47,7 @@ class SSLMOSLightningModule(LightningModule):
         if pretrained_model_path is not None:
             weight = torch.load(pretrained_model_path, map_location=self.device)
             self.load_state_dict(weight["state_dict"])
+        self.is_sfi = hasattr(self.ssl_model, "set_sample_rate")
 
     def forward(self, waves, listenr_ids):
         """
@@ -54,13 +59,18 @@ class SSLMOSLightningModule(LightningModule):
         Returns:
             Output of the model.
         """
-        waves = self.processor(
-            [w.detach().cpu().numpy() for w in waves],
-            return_tensors="pt",
-            sampling_rate=16000,
-            padding=True,
-        ).to(self.device)
-        outputs = self.ssl_model(**waves)
+        if not self.is_sfi:
+            waves = self.processor(
+                [w.detach().cpu().numpy() for w in waves],
+                return_tensors="pt",
+                sampling_rate=16000,
+                padding=True,
+            ).to(self.device)
+            outputs = self.ssl_model(**waves)
+        else:
+            outputs = self.ssl_model(
+                input_values=waves,
+            )
         hidden_states = (
             outputs.last_hidden_state
         )  # Shape: (batch_size, seq_len, hidden_size)
@@ -85,8 +95,11 @@ class SSLMOSLightningModule(LightningModule):
         mos = (mos - 3) / 2  # Normalize MOS to [-1, 1]
         if srs.unique().numel() > 1:
             raise ValueError("All samples in a batch must have the same sample rate.")
-        if hasattr(self.ssl_model, "set_sample_rate"):
+        if self.is_sfi:
             self.ssl_model.set_sample_rate(srs[0].item())
+            waves = torch.nn.utils.rnn.pad_sequence(
+                [w.view(-1) for w in waves], batch_first=True
+            ).to(self.device)
         logits = self.forward(waves, listener_ids)
         loss = self.criterion(logits, mos)
         self.log(
@@ -99,10 +112,10 @@ class SSLMOSLightningModule(LightningModule):
         return loss
 
     def training_step(self, batch, batch_idx):
-        self.step(batch, batch_idx, stage="train")
+        return self.step(batch, batch_idx, stage="train")
 
     def validation_step(self, batch, batch_idx):
-        self.step(batch, batch_idx, stage="val")
+        return self.step(batch, batch_idx, stage="val")
 
     def configure_optimizers(self):
         """

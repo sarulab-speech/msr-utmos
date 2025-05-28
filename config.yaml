@@ -9,7 +9,7 @@ trainer:
   logger:
   - class_path: lightning.pytorch.loggers.WandbLogger
     init_args:
-      name: scratch_w2v2/fold0
+      name: scratch_sfi_wavlm/fold3
       save_dir: .
       version: null
       offline: false
@@ -28,7 +28,7 @@ trainer:
       config_exclude_keys: null
       config_include_keys: null
       allow_val_change: null
-      group: scratch_w2v2
+      group: scratch_sfi_wavlm
       job_type: null
       mode: null
       force: null
@@ -59,7 +59,7 @@ trainer:
       save_on_train_epoch_end: null
       enable_version_counter: true
   fast_dev_run: false
-  max_epochs: null
+  max_epochs: 50
   min_epochs: null
   max_steps: -1
   min_steps: null
@@ -92,12 +92,13 @@ trainer:
   default_root_dir: null
   model_registry: null
 model:
-  ssl_model_path: facebook/wav2vec2-base
+  ssl_model_path: Wataru/sfi_wavlm_distill_ears
   pretrained_model_path: null
+  processor_path: facebook/wav2vec2-base
 data:
-  train_mos_data_path: /work/gj18/e43001/github.com/sfi-utmos/notebooks/train_0_7fold.csv
-  valid_mos_data_path: /work/gj18/e43001/github.com/sfi-utmos/notebooks/val_0_7fold.csv
-  wav_root: /work/gj18/e43001/mos_corpus/vmc24/track3_obf/DATA/wav
+  train_mos_data_path: notebooks/train_3_7fold.csv
+  valid_mos_data_path: notebooks/val_3_7fold.csv
+  wav_root: /home/acc12576tt/vmc24/track3_obf/DATA/wav/
   batch_size: 1
   shuffle: true
 optimizer: null
