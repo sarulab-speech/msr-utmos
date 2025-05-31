@@ -9,7 +9,7 @@ trainer:
   logger:
   - class_path: lightning.pytorch.loggers.WandbLogger
     init_args:
-      name: scratch_sfi_wavlm/fold3
+      name: finetune_sfi_w2v2_checkpoint_copy/fold4
       save_dir: .
       version: null
       offline: false
@@ -28,7 +28,7 @@ trainer:
       config_exclude_keys: null
       config_include_keys: null
       allow_val_change: null
-      group: scratch_sfi_wavlm
+      group: finetune_sfi_w2v2_checkpoint_copy
       job_type: null
       mode: null
       force: null
@@ -92,12 +92,13 @@ trainer:
   default_root_dir: null
   model_registry: null
 model:
-  ssl_model_path: Wataru/sfi_wavlm_distill_ears
-  pretrained_model_path: null
+  ssl_model_path: Wataru/sfi_w2v2_distill_ears
+  pretrained_model_path: /home/acc12576tt/github.com/sfi-utmos/vmc24_mos/rztvyeks/checkpoints/epoch=31-val_loss=0.00.ckpt
   processor_path: facebook/wav2vec2-base
+  condition_sr: false
 data:
-  train_mos_data_path: notebooks/train_3_7fold.csv
-  valid_mos_data_path: notebooks/val_3_7fold.csv
+  train_mos_data_path: notebooks/train_4_7fold.csv
+  valid_mos_data_path: notebooks/val_4_7fold.csv
   wav_root: /home/acc12576tt/vmc24/track3_obf/DATA/wav/
   batch_size: 1
   shuffle: true

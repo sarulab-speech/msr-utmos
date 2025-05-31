@@ -9,9 +9,9 @@ trainer:
   logger: 
     - class_path: lightning.pytorch.loggers.WandbLogger
       init_args:
-        name: "scratch_hubert/fold0"
+        name: "fix_scratch_hubert/fold0"
         project: "vmc24_mos"
-        group: "scratch_hubert"
+        group: "fix_scratch_hubert"
   callbacks: 
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint
       init_args:

@@ -2,6 +2,7 @@ from typing import Optional
 
 import schedulefree
 import torch
+import torchaudio
 import transformers
 from lightning import LightningModule
 
@@ -17,6 +18,7 @@ class SSLMOSLightningModule(LightningModule):
         ssl_model_path,
         pretrained_model_path=Optional[str],
         processor_path: Optional[str] = None,
+        condition_sr: Optional[bool] = False,
     ):
         """
         Initialize the SSLMOSLightningModule.
@@ -48,8 +50,12 @@ class SSLMOSLightningModule(LightningModule):
             weight = torch.load(pretrained_model_path, map_location=self.device)
             self.load_state_dict(weight["state_dict"])
         self.is_sfi = hasattr(self.ssl_model, "set_sample_rate")
+        if condition_sr:
+            self.sr_embedding = torch.nn.Embedding(3, self.ssl_model.config.hidden_size)
+            self.sr2id = {16000: 0, 24000: 1, 48000: 2}
+        self.condition_sr = condition_sr
 
-    def forward(self, waves, listenr_ids):
+    def forward(self, waves, listenr_ids: torch.Tensor, srs=None):
         """
         Forward pass through the model.
 
@@ -59,6 +65,8 @@ class SSLMOSLightningModule(LightningModule):
         Returns:
             Output of the model.
         """
+        if listenr_ids.ndim != 1:
+            raise ValueError("shape error")
         if not self.is_sfi:
             waves = self.processor(
                 [w.detach().cpu().numpy() for w in waves],
@@ -74,6 +82,8 @@ class SSLMOSLightningModule(LightningModule):
         hidden_states = (
             outputs.last_hidden_state
         )  # Shape: (batch_size, seq_len, hidden_size)
+        if self.condition_sr:
+            hidden_states = hidden_states + self.sr_embedding(srs).unsqueeze(1)
         hidden_states = hidden_states + self.listenr_embedding(listenr_ids).unsqueeze(1)
         logits = torch.tanh(
             self.pred_liner(hidden_states).mean(dim=1)
@@ -100,7 +110,16 @@ class SSLMOSLightningModule(LightningModule):
             waves = torch.nn.utils.rnn.pad_sequence(
                 [w.view(-1) for w in waves], batch_first=True
             ).to(self.device)
-        logits = self.forward(waves, listener_ids)
+        else:
+            waves = [
+                torchaudio.functional.resample(w.view(-1), srs[0].item(), 16000)
+                for w in waves
+            ]
+        if self.condition_sr:
+            srs = torch.stack(
+                [torch.tensor(self.sr2id[sr.detach().cpu().item()]) for sr in srs]
+            ).to(self.device)
+        logits = self.forward(waves, listener_ids, srs)
         loss = self.criterion(logits, mos)
         self.log(
             f"{stage}/loss",

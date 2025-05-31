@@ -177,3 +177,5 @@ lightning_logs/
 *.sh.o*
 wandb/
 vmc24_mos/
+predictions/
+audiomos2025-track3-dev_sys_mos_list.csv

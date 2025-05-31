@@ -9,9 +9,9 @@ trainer:
   logger: 
     - class_path: lightning.pytorch.loggers.WandbLogger
       init_args:
-        name: "scratch_sfi_hubert/fold0"
+        name: "finetune_sfi_hubert/fold0"
         project: "vmc24_mos"
-        group: "scratch_sfi_hubert"
+        group: "finetune_sfi_hubert"
   callbacks: 
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint
       init_args:
@@ -55,7 +55,7 @@ trainer:
 model:
   ssl_model_path: Wataru/sfi_hubert_distill_ears
   processor_path: facebook/wav2vec2-base
-  pretrained_model_path: null
+  pretrained_model_path: /home/acc12576tt/github.com/sfi-utmos/vmc24_mos/sf6xpph6/checkpoints/epoch=32-val_loss=0.00.ckpt
 data:
   train_mos_data_path: notebooks/train_0_7fold.csv
   valid_mos_data_path: notebooks/val_0_7fold.csv

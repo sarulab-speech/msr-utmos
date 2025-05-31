@@ -9,9 +9,9 @@ trainer:
   logger: 
     - class_path: lightning.pytorch.loggers.WandbLogger
       init_args:
-        name: "finetune_sfi_w2v2/fold0"
+        name: "fix_scratch_sr_conditioning_wavlm/fold0"
         project: "vmc24_mos"
-        group: "finetune_sfi_w2v2"
+        group: "fix_scratch_wavlm_sr_conditioning"
   callbacks: 
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint
       init_args:
@@ -53,9 +53,10 @@ trainer:
   default_root_dir: null
   model_registry: null
 model:
-  ssl_model_path: Wataru/sfi_w2v2_distill_ears
+  ssl_model_path: microsoft/wavlm-base
   processor_path: facebook/wav2vec2-base
-  pretrained_model_path: /home/acc12576tt/github.com/sfi-utmos/vmc24_mos/mskomqpw/checkpoints/epoch=08-val_loss=0.00.ckpt
+  pretrained_model_path: null
+  condition_sr: true
 data:
   train_mos_data_path: notebooks/train_0_7fold.csv
   valid_mos_data_path: notebooks/val_0_7fold.csv

@@ -10,8 +10,8 @@ cd ${PBS_O_WORKDIR}
 N_SHARDS=7
 for i in $(seq 0 $((N_SHARDS - 1))); do
     echo "Starting shard $i"
-    uv run -m sfi_utmos.train_mos fit -c configs/mos/finetune/scratch_w2v2.yaml \
+    uv run -m sfi_utmos.train_mos fit -c configs/mos/finetune_condition_sr/finetune_wavlm.yaml \
         --data.train_mos_data_path="notebooks/train_${i}_7fold.csv" \
-        --data.valid_mos_data_path="notebooks/val_${i}_7fold.csv" --trainer.logger.name="fix_scratch_w2v2/fold${i}" & 
+        --data.valid_mos_data_path="notebooks/val_${i}_7fold.csv" --trainer.logger.name="finetune_condition_sr_wavlm/fold${i}" & 
 done
 wait
