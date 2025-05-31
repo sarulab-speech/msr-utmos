@@ -16,7 +16,7 @@ class SSLMOSLightningModule(LightningModule):
     def __init__(
         self,
         ssl_model_path,
-        pretrained_model_path=Optional[str],
+        pretrained_model_path: Optional[str] = None,
         processor_path: Optional[str] = None,
         condition_sr: Optional[bool] = False,
     ):
