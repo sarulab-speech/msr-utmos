@@ -10,7 +10,7 @@ trainer:
     - class_path: lightning.pytorch.loggers.WandbLogger
       init_args:
         name: "fix_finetune_sr_conditioning_w2v2/fold0"
-        project: "vmc24_mos"
+        project: "vmc24_mos_v2"
         group: "fix_finetune_sr_conditioning_w2v2"
   callbacks: 
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint

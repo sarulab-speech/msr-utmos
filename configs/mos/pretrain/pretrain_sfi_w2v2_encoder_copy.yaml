@@ -10,7 +10,7 @@ trainer:
     - class_path: lightning.pytorch.loggers.WandbLogger
       init_args:
         name: "pretrain_sfi_w2v2_encoder_copy"
-        project: "vmc24_mos"
+        project: "vmc24_mos_v2"
         group: "pretrain_sfi_w2v2_encoder_copy"
   callbacks: 
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint

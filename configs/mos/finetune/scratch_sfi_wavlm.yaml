@@ -10,7 +10,7 @@ trainer:
     - class_path: lightning.pytorch.loggers.WandbLogger
       init_args:
         name: "scratch_sfi_wavlm/fold0"
-        project: "vmc24_mos"
+        project: "vmc24_mos_v2"
         group: "scratch_sfi_wavlm"
   callbacks: 
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint

@@ -10,7 +10,7 @@ trainer:
     - class_path: lightning.pytorch.loggers.WandbLogger
       init_args:
         name: "pretrain_sfi_hubert"
-        project: "vmc24_mos"
+        project: "vmc24_mos_v2"
         group: "pretrain_sfi_hubert"
   callbacks: 
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint
