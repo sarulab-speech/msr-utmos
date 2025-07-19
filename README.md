@@ -1,29 +1,30 @@
-# SFI-UTMOS
+# MSR-UTMOS
 
-**Sampling-Frequency-Independent Convolution for MOS Prediction**
+**Multi-Sampling-Frequency Naturalness MOS Prediction Using Self-Supervised Learning Model with Sampling-Frequency-Independent Layer**
+
+Authors
+-  Go Nishikawa
+-  [Wataru Nakata](https://wataru-nakata.github.io/)
+-  [Yuki Saito](https://sython.org/)
+-  [Kanami Imamura](https://scholar.google.com/citations?user=Lw11ESIAAAAJ&hl=en)
+-  [Hiroshi Saruwatari](https://scholar.google.com/citations?hl=en&user=OS1XAoMAAAAJ)
+-  [Tomohiko Nakamura](https://tomohikonakamura.github.io/Tomohiko-Nakamura/index.html)
 
 ---
 
-## Overview
+## Abstract 
 
-Most modern audio-based Self-Supervised Learning (SSL) models require a fixed input sample rate (e.g., 16kHz). This necessitates resampling all input audio, which can be computationally expensive and potentially degrade signal quality.
+We introduce our submission to the AudioMOS Challenge (AMC) 2025 Track 3: mean opinion score (MOS) prediction for speech with multiple sampling frequencies (SFs).
+Our submitted model integrates an SF-independent (SFI) convolutional layer into a self-supervised learning (SSL) model to achieve SFI speech feature extraction for MOS prediction.
+We present some strategies to improve the MOS prediction performance of our model: distilling knowledge from a pretrained non-SFI-SSL model and pretraining with a large-scale MOS dataset.
+Our submission to the AMC 2025 Track 3 ranked the first in one evaluation metric and the fourth in the final ranking.
+We also report the results of our ablation study to investigate essential factors of our model.
 
-**SFI-UTMOS** introduces a model that is independent of the sampling frequency for the task of Mean Opinion Score (MOS) prediction. It leverages knowledge distillation to train a flexible "student" model that can process audio at various native sample rates (e.g., 16kHz, 24kHz, 48kHz). This student model is then fine-tuned for high-quality MOS prediction without the need for resampling during inference.
-
-## Key Features
-
--   **Sampling-Frequency-Independent:** Processes audio files at their native sample rates.
--   **Knowledge Distillation:** A smaller, flexible student model learns from a powerful, pre-trained teacher model (e.g., Wav2Vec2-Base).
--   **High-Quality MOS Prediction:** Achieves strong performance on MOS prediction tasks by fine-tuning the distilled model.
--   **Efficient & Modern:** Built with PyTorch Lightning for reproducible and scalable training.
--   **CLI-Driven:** Uses `lightning.pytorch.cli` for easy configuration and execution of training runs from the command line.
 
 ## Project Structure
 
 ```
 sfi-utmos/
-├── notebooks/
-│   └── predict.py           # Script for running inference
 ├── src/
 │   └── sfi_utmos/
 │       ├── data/            # Data loading and processing
@@ -50,14 +51,7 @@ sfi-utmos/
 
 2.  **Create and activate a virtual environment:**
     ```bash
-    python -m venv .venv
-    source .venv/bin/activate
-    ```
-
-3.  **Install dependencies:** This project uses `uv` for fast dependency management. The `uv.lock` file ensures a reproducible environment.
-    ```bash
-    pip install uv
-    uv pip install -e .[dev]
+    uv sync
     ```
 
 ## Usage
@@ -71,7 +65,7 @@ First, train the sampling-frequency-independent student model using `src/sfi_utm
 **Example Configuration (`distill_config.yaml`):**
 ```yaml
 model:
-  class_path: sfi_utmos.model.distill_ssl.DistillSSL
+  class_path: sfi_utmos.model.distill_ssl.DistillSSL # The module is sfi-utmos, but the model is msr-utmos
   init_args:
     teacher_model_path_or_name: facebook/wav2vec2-base
     student_model_path_or_name: sfi/wav2vec2-base-sfi # Example student model
@@ -106,16 +100,3 @@ Once you have a trained SFI model checkpoint, fine-tune it for MOS prediction us
 python src/sfi_utmos/train_mos.py fit --model.ssl_model_path=/path/to/distilled_model --data.train_mos_data_path=/path/to/train.csv --data.valid_mos_data_path=/path/to/val.csv --data.wav_root=/path/to/wavs --trainer.max_epochs=5
 ```
 
-### 3. Inference
-
-Use the `notebooks/predict.py` script to generate MOS predictions for a directory of audio files using a trained checkpoint.
-
-```bash
-python notebooks/predict.py \
-    --ckpt_path /path/to/your/mos_model.ckpt \
-    --wav_dir /path/to/inference/wavs \
-    --id my_prediction_run \
-    --device cuda
-```
-
-Predictions will be saved in `predictions_final/my_prediction_run/answer.txt`.
