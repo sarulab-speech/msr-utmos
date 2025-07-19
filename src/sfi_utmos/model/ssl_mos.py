@@ -39,7 +39,14 @@ class SSLMOSLightningModule(LightningModule):
         self.processor = transformers.AutoProcessor.from_pretrained(
             _processor_path, trust_remote_code=True
         )
-        self.pred_liner = torch.nn.Linear(self.ssl_model.config.hidden_size, 1)
+        self.pred_liner = torch.nn.Sequential(
+            torch.nn.Linear(
+                self.ssl_model.config.hidden_size, self.ssl_model.config.hidden_size
+            ),
+            torch.nn.SiLU(),
+            torch.nn.Linear(self.ssl_model.config.hidden_size, 1),
+        )
+
         self.listenr_embedding = torch.nn.Embedding(
             1000, self.ssl_model.config.hidden_size
         )

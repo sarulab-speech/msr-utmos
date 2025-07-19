@@ -55,7 +55,7 @@ trainer:
 model:
   ssl_model_path: microsoft/wavlm-base
   processor_path: facebook/wav2vec2-base
-  pretrained_model_path: /home/acc12576tt/github.com/sfi-utmos/vmc24_mos/8xnwfcsd/checkpoints/epoch=35-val_loss=0.00.ckpt
+  pretrained_model_path: /home/acc12576tt/github.com/sfi-utmos/vmc24_mos_v2/5jonvfp1/checkpoints/epoch=00-val_loss=0.00.ckpt
   condition_sr: true
 data:
   train_mos_data_path: notebooks/train_0_7fold.csv

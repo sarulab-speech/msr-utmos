@@ -1,0 +1,13 @@
+#qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/scratch/sfi_hubert.sh
+#qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/scratch/sfi_w2v2.sh
+#qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/scratch/sfi_wavlm.sh
+#qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/pretrained/sfi_hubert.sh
+#qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/pretrained/sfi_w2v2_checkpoint_copy.sh
+#qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/pretrained/sfi_w2v2.sh
+#qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/pretrained/sfi_wavlm.sh
+qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/sr_conditioning/finetune_hubert.sh
+qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/sr_conditioning/finetune_w2v2.sh
+qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/sr_conditioning/finetune_wavlm.sh
+qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/sr_conditioning/scratch_hubert.sh
+qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/sr_conditioning/scratch_w2v2.sh
+qsub /home/acc12576tt/github.com/sfi-utmos/job_scripts/mos/finetune/sr_conditioning/scratch_wavlm.sh

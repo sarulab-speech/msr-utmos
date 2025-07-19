@@ -179,3 +179,11 @@ wandb/
 vmc24_mos/
 predictions/
 audiomos2025-track3-dev_sys_mos_list.csv
+*.wav
+audiomos2025-track3--eval-phase/
+challenge_submission/
+notebooks/
+notebooks_back/
+post_eval_distro/
+*.zip
+predictions_final/

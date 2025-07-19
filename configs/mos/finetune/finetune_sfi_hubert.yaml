@@ -55,7 +55,7 @@ trainer:
 model:
   ssl_model_path: Wataru/sfi_hubert_distill_ears
   processor_path: facebook/wav2vec2-base
-  pretrained_model_path: /home/acc12576tt/github.com/sfi-utmos/vmc24_mos/sf6xpph6/checkpoints/epoch=32-val_loss=0.00.ckpt
+  pretrained_model_path: /home/acc12576tt/github.com/sfi-utmos/vmc24_mos_v2/t0kpwf0x/checkpoints/epoch=03-val_loss=0.00.ckpt
 data:
   train_mos_data_path: notebooks/train_0_7fold.csv
   valid_mos_data_path: notebooks/val_0_7fold.csv

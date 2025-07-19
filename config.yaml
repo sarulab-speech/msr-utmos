@@ -9,14 +9,14 @@ trainer:
   logger:
   - class_path: lightning.pytorch.loggers.WandbLogger
     init_args:
-      name: finetune_sfi_w2v2_checkpoint_copy/fold4
+      name: finetune_condition_sr_wavlm/fold5
       save_dir: .
       version: null
       offline: false
       dir: null
       id: null
       anonymous: null
-      project: vmc24_mos
+      project: vmc24_mos_v2
       log_model: false
       experiment: null
       prefix: ''
@@ -28,7 +28,7 @@ trainer:
       config_exclude_keys: null
       config_include_keys: null
       allow_val_change: null
-      group: finetune_sfi_w2v2_checkpoint_copy
+      group: fix_finetune_sr_conditioning_wavlm
       job_type: null
       mode: null
       force: null
@@ -92,13 +92,13 @@ trainer:
   default_root_dir: null
   model_registry: null
 model:
-  ssl_model_path: Wataru/sfi_w2v2_distill_ears
-  pretrained_model_path: /home/acc12576tt/github.com/sfi-utmos/vmc24_mos/rztvyeks/checkpoints/epoch=31-val_loss=0.00.ckpt
+  ssl_model_path: microsoft/wavlm-base
+  pretrained_model_path: /home/acc12576tt/github.com/sfi-utmos/vmc24_mos_v2/5jonvfp1/checkpoints/epoch=00-val_loss=0.00.ckpt
   processor_path: facebook/wav2vec2-base
-  condition_sr: false
+  condition_sr: true
 data:
-  train_mos_data_path: notebooks/train_4_7fold.csv
-  valid_mos_data_path: notebooks/val_4_7fold.csv
+  train_mos_data_path: notebooks/train_5_7fold.csv
+  valid_mos_data_path: notebooks/val_5_7fold.csv
   wav_root: /home/acc12576tt/vmc24/track3_obf/DATA/wav/
   batch_size: 1
   shuffle: true
