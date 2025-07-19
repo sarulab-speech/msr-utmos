@@ -20,7 +20,6 @@ class SSLMOSLightningModule(LightningModule):
         pretrained_model_path: Optional[str] = None,
         processor_path: Optional[str] = None,
         condition_sr: Optional[bool] = False,
-        ssl_model_type: Optional[Literal["w2v2", "hubert", "wavlm"]] = None,
     ):
         """
         Initialize the SSLMOSLightningModule.
@@ -32,17 +31,6 @@ class SSLMOSLightningModule(LightningModule):
             scheduler: Learning rate scheduler (optional).
         """
         super().__init__()
-        if not Path(ssl_model_path).exists():
-            if ssl_model_type is None:
-                raise ValueError(
-                    "ssl_model_type must be specified if ssl_model_path does not exist."
-                )
-            if ssl_model_type == "w2v2":
-                ssl_model_path = "Wataru/sfi_w2v2_distill_ears"
-            elif ssl_model_type == "hubert":
-                ssl_model_path = "Wataru/sfi_hubert_distill_ears"
-            elif ssl_model_type == "wavlm":
-                ssl_model_path = "Wataru/sfi_wavlm_distill_ears"
         self.ssl_model = transformers.AutoModel.from_pretrained(
             ssl_model_path, trust_remote_code=True
         ).train()
