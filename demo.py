@@ -66,7 +66,7 @@ def main():
     parser.add_argument(
         "--checkpoint_path",
         type=str,
-        required=True,
+        default="model.ckpt",
         help="Path to the model checkpoint (.ckpt file).",
     )
     args = parser.parse_args()
