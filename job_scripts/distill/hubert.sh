@@ -6,4 +6,4 @@
 #PBS -j oe
 
 cd ${PBS_O_WORKDIR}
-uv run python -m  sfi_utmos.train fit -c config_hubert.yaml
+uv run python -m  sfi_utmos.train fit -c configs/distill/config_hubert.yaml

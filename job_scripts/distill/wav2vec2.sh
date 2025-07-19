@@ -7,4 +7,4 @@
 #PBS -j oe
 
 cd ${PBS_O_WORKDIR}
-uv run python -m  sfi_utmos.train fit -c config_w2v2.yaml
+uv run python -m  sfi_utmos.train fit -c configs/distill/config_w2v2.yaml
