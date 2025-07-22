@@ -1,6 +1,6 @@
 # MSR-UTMOS
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/sarulab-speech/MSR-UTMOS)
-[![arXiv](https://img.shields.io/badge/arXiv-2407.08630-b31b1b.svg)]()
+[![arXiv](https://img.shields.io/badge/arXiv-2507.14647-b31b1b.svg)](https://arxiv.org/abs/2507.14647v1)
 
 **Multi-Sampling-Frequency Naturalness MOS Prediction Using Self-Supervised Learning Model with Sampling-Frequency-Independent Layer**
 
